@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es" style="background:#EFF6F3;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cerca — La pulsera que cuida sin que tengas que estar mirando el móvil</title>
+<meta name="description" content="Cerca es una pulsera NFC sin batería para niños. Con un toque, quien la encuentre ve tu contacto y lo esencial. Sin apps, sin cargar nada.">
+<meta property="og:title" content="Cerca — Que un desconocido sepa llamarte en 10 segundos">
+<meta property="og:description" content="Pulsera NFC infantil sin batería. Un toque y listo.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23FF6449'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23EFF6F3'/%3E%3C/svg%3E">
+<meta name="color-scheme" content="light">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Sora:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+  html{ color-scheme: light; }
+
+  :root{
+    --paper:#EFF6F3;
+    --paper-deep:#E1EEE8;
+    --ink:#132420;
+    --ink-soft:#4E635C;
+    --coral:#FF6449;
+    --coral-deep:#DD4B32;
+    --teal:#0B6E63;
+    --teal-soft:#DCEEE9;
+    --gold:#FFB648;
+    --line:rgba(19,36,32,0.12);
+    --radius:20px;
+  }
+
+  *{box-sizing:border-box; forced-color-adjust:none;}
+  html{scroll-behavior:smooth; background:#EFF6F3; forced-color-adjust:none;}
+  body{
+    margin:0;
+    background:#EFF6F3;
+    background-image:
+      radial-gradient(1100px 500px at 85% -10%, rgba(255,182,72,0.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(11,110,99,0.10), transparent 55%);
+    color:#132420 !important;
+    forced-color-adjust:none;
+    font-family:'Sora', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:1; opacity:0.35; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; margin:0; letter-spacing:-0.01em; }
+  .mono{ font-family:'Space Mono', monospace; }
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{ outline:3px solid var(--teal); outline-offset:3px; }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 24px; position:relative; z-index:2; }
+  section, .nav, footer{ position:relative; z-index:2; }
+
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.7s ease, transform 0.7s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* NAV */
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 24px; max-width:1120px; margin:0 auto;
+    position:sticky; top:0; z-index:50; border-radius:0 0 18px 18px;
+    transition:background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+  }
+  .nav.scrolled{
+    background:rgba(239,246,243,0.78); backdrop-filter:blur(14px) saturate(140%);
+    box-shadow:0 8px 30px -18px rgba(19,36,32,0.25);
+  }
+  .nav__brand{ display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:600; font-size:1.25rem; }
+  .nav__mark{ width:26px; height:26px; }
+  .nav__links{ display:flex; gap:30px; font-size:0.92rem; color:var(--ink-soft); }
+  .nav__links a{ text-decoration:none; position:relative; padding-bottom:2px; }
+  .nav__links a::after{ content:""; position:absolute; left:0; bottom:-2px; width:0; height:1.5px; background:var(--coral); transition:width 0.25s ease; }
+  .nav__links a:hover{ color:var(--ink); }
+  .nav__links a:hover::after{ width:100%; }
+  .nav__cta{
+    background:var(--ink); color:var(--paper); border:none;
+    padding:11px 22px; border-radius:100px; font-size:0.9rem; font-weight:600;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .nav__cta:hover{ transform:translateY(-2px); box-shadow:0 10px 22px -10px rgba(19,36,32,0.5); }
+  @media (max-width:720px){ .nav__links{ display:none; } }
+
+  /* HERO */
+  .hero{ padding:44px 24px 90px; }
+  .hero__grid{ max-width:1120px; margin:0 auto; display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Mono',monospace; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--teal); background:var(--teal-soft); padding:7px 12px; border-radius:100px; margin-bottom:22px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--coral); animation:blink 1.8s infinite; }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+  .hero h1{ font-size:clamp(2.15rem, 4.2vw, 3.5rem); line-height:1.05; }
+  .hero h1 em{ font-style:normal; color:var(--coral); position:relative; }
+  .hero p.lede{ font-size:1.14rem; color:var(--ink-soft); max-width:46ch; margin-top:24px; }
+  .hero__actions{ display:flex; gap:14px; margin-top:34px; flex-wrap:wrap; align-items:center; }
+  .btn-primary{
+    background:var(--coral); color:#fff; border:none; padding:16px 28px;
+    border-radius:100px; font-size:1rem; font-weight:600;
+    box-shadow:0 14px 28px -10px rgba(221,75,50,0.55);
+    transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .btn-primary:hover{ background:var(--coral-deep); transform:translateY(-2px); box-shadow:0 18px 32px -10px rgba(221,75,50,0.6); }
+  .btn-ghost{
+    background:transparent; border:1.5px solid var(--line); color:var(--ink);
+    padding:15px 22px; border-radius:100px; font-size:0.95rem; font-weight:600;
+    transition:border-color 0.2s ease, transform 0.2s ease;
+  }
+  .btn-ghost:hover{ border-color:var(--ink); transform:translateY(-2px); }
+  .hero__note{ font-size:0.82rem; color:var(--ink-soft); margin-top:16px; }
+
+  /* SIGNATURE DEMO */
+  .demo{
+    background:#fff; border-radius:26px; padding:36px;
+    border:1px solid var(--line);
+    box-shadow:0 40px 70px -35px rgba(19,36,32,0.35);
+    position:relative; overflow:hidden;
+  }
+  .demo::before{
+    content:""; position:absolute; top:-60px; right:-60px; width:180px; height:180px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,182,72,0.35), transparent 70%);
+  }
+  .demo__label{ font-family:'Space Mono',monospace; font-size:0.75rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; position:relative; }
+  .demo__stage{ display:flex; align-items:center; justify-content:center; gap:26px; min-height:250px; position:relative; }
+
+  .phone{ width:96px; height:190px; position:relative; flex-shrink:0; transition:transform 0.5s cubic-bezier(.2,.8,.2,1); filter:drop-shadow(0 18px 24px rgba(19,36,32,0.22)); }
+  .phone.tapping{ transform:translateX(50px) rotate(-6deg); }
+  .phone__body{ position:absolute; inset:0; border-radius:22px; background:linear-gradient(155deg,#243934,#132420); }
+  .phone__screen{ position:absolute; inset:6px; border-radius:17px; background:linear-gradient(165deg,#0d1f1a,#132420); overflow:hidden; transition:box-shadow 0.4s ease; }
+  .phone.tapping .phone__screen{ box-shadow:inset 0 0 0 2px rgba(255,182,72,0.6), 0 0 30px rgba(255,182,72,0.35); }
+  .phone__notch{ position:absolute; top:8px; left:50%; transform:translateX(-50%); width:26px; height:4px; border-radius:4px; background:rgba(239,246,243,0.25); }
+  .phone__home{ position:absolute; bottom:6px; left:50%; transform:translateX(-50%); width:34px; height:3px; border-radius:4px; background:rgba(239,246,243,0.25); }
+  .phone__glow{ position:absolute; inset:0; opacity:0; background:radial-gradient(circle at 50% 40%, rgba(255,182,72,0.5), transparent 70%); transition:opacity 0.4s ease; }
+  .phone.tapping .phone__glow{ opacity:1; }
+
+  .bracelet{ width:118px; height:118px; position:relative; flex-shrink:0; }
+  .bracelet svg{ width:100%; height:100%; overflow:visible; }
+  .nfc-wave{ opacity:0; transform-origin:center; }
+  .bracelet.pulse .nfc-wave{ animation:wave 1.1s ease-out; }
+  .bracelet.pulse .nfc-wave.w2{ animation-delay:0.15s; }
+  .bracelet.pulse .nfc-wave.w3{ animation-delay:0.3s; }
+  @keyframes wave{ 0%{ opacity:0.9; transform:scale(0.6); } 100%{ opacity:0; transform:scale(1.6); } }
+
+  .card{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-38%) scale(0.9);
+    width:256px; background:#fff; border-radius:18px; border:1px solid var(--line);
+    padding:18px; opacity:0; pointer-events:none;
+    box-shadow:0 28px 50px -20px rgba(19,36,32,0.4);
+    transition:opacity 0.35s ease, transform 0.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .card.show{ opacity:1; transform:translate(-50%,-58%) scale(1); pointer-events:auto; }
+  .card__top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .card__tag{ font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--teal); background:var(--teal-soft); padding:3px 9px; border-radius:100px; }
+  .card__name{ font-family:'Fraunces',serif; font-size:1.15rem; font-weight:600; }
+  .card__row{ display:flex; justify-content:space-between; font-size:0.82rem; padding:6px 0; border-top:1px solid var(--line); color:var(--ink-soft); }
+  .card__row b{ color:var(--ink); font-weight:600; }
+  .card__call{ margin-top:12px; width:100%; background:var(--ink); color:#fff; border:none; padding:11px; border-radius:100px; font-size:0.82rem; font-weight:600; transition:transform 0.2s ease; }
+  .card__call:hover{ transform:translateY(-1px); }
+  .demo__hint{ text-align:center; font-size:0.85rem; color:var(--ink-soft); margin-top:18px; position:relative; }
+  .tap-btn{
+    display:block; margin:20px auto 0; background:var(--paper-deep); border:1px solid var(--line);
+    padding:11px 22px; border-radius:100px; font-size:0.88rem; font-weight:600; color:var(--ink);
+    position:relative; transition:background 0.2s ease, transform 0.2s ease;
+  }
+  .tap-btn:hover{ background:#fff; transform:translateY(-2px); }
+
+  @media (max-width:900px){ .hero__grid{ grid-template-columns:1fr; } }
+
+  /* PROBLEM STRIP */
+  .strip{ background:var(--ink); color:var(--paper); padding:70px 24px; position:relative; overflow:hidden; }
+  .strip::before{ content:""; position:absolute; inset:0; background:radial-gradient(700px 300px at 15% 0%, rgba(255,100,73,0.18), transparent 60%); }
+  .strip__grid{ max-width:900px; margin:0 auto; text-align:center; position:relative; }
+  .strip h2{ font-size:clamp(1.5rem,3vw,2.15rem); color:#fff; line-height:1.28; }
+  .strip p{ color:rgba(239,246,243,0.68); margin-top:18px; font-size:1.05rem; max-width:56ch; margin-left:auto; margin-right:auto; }
+
+  /* STEPS */
+  .steps{ padding:96px 24px; }
+  .section-head{ max-width:640px; margin:0 auto 58px; text-align:center; }
+  .section-head .eyebrow{ margin-bottom:16px; }
+  .section-head h2{ font-size:clamp(1.7rem,3.4vw,2.4rem); }
+  .steps__grid{ max-width:1120px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .step{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:32px 26px; transition:transform 0.25s ease, box-shadow 0.25s ease; }
+  .step:hover{ transform:translateY(-4px); box-shadow:0 20px 34px -20px rgba(19,36,32,0.3); }
+  .step__num{ font-family:'Space Mono',monospace; color:var(--coral); font-size:0.85rem; margin-bottom:14px; }
+  .step h3{ font-size:1.2rem; margin-bottom:10px; }
+  .step p{ color:var(--ink-soft); font-size:0.95rem; }
+  @media (max-width:820px){ .steps__grid{ grid-template-columns:1fr; } }
+
+  /* TRUST */
+  .trust{ background:var(--paper-deep); padding:96px 24px; }
+  .trust__grid{ max-width:1120px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+  .trust__item{ text-align:left; }
+  .trust__icon{ width:40px; height:40px; margin-bottom:16px; color:var(--teal); }
+  .trust__item h3{ font-size:1.02rem; margin-bottom:8px; }
+  .trust__item p{ color:var(--ink-soft); font-size:0.88rem; }
+  @media (max-width:900px){ .trust__grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:540px){ .trust__grid{ grid-template-columns:1fr; } }
+
+  /* PRICING */
+  .pricing{ padding:96px 24px; }
+  .price__cards{ max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  .price__card{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:36px; transition:transform 0.25s ease, box-shadow 0.25s ease; }
+  .price__card:hover{ transform:translateY(-4px); box-shadow:0 24px 40px -22px rgba(19,36,32,0.3); }
+  .price__card--highlight{ border-color:var(--coral); background:linear-gradient(180deg,#fff,#fff8f6); position:relative; }
+  .price__badge{ position:absolute; top:-13px; left:28px; background:var(--coral); color:#fff; font-size:0.72rem; font-weight:700; padding:5px 13px; border-radius:100px; font-family:'Space Mono',monospace; }
+  .price__amount{ font-family:'Fraunces',serif; font-size:2.5rem; margin:14px 0 4px; }
+  .price__amount span{ font-size:1rem; color:var(--ink-soft); font-family:'Sora',sans-serif; }
+  .price__card ul{ list-style:none; padding:0; margin:20px 0 26px; }
+  .price__card li{ font-size:0.92rem; color:var(--ink-soft); padding:8px 0; border-top:1px solid var(--line); }
+  .price__card li:first-child{ border-top:none; }
+  .price__card .btn-primary, .price__card .btn-ghost{ width:100%; text-align:center; }
+  @media (max-width:640px){ .price__cards{ grid-template-columns:1fr; } }
+
+  /* FAQ */
+  .faq{ background:var(--paper-deep); padding:96px 24px; }
+  .faq__list{ max-width:760px; margin:0 auto; }
+  .faq__item{ border-bottom:1px solid var(--line); }
+  .faq__q{ width:100%; background:none; border:none; text-align:left; display:flex; justify-content:space-between; align-items:center; padding:22px 4px; font-size:1.02rem; font-weight:600; color:var(--ink); }
+  .faq__q .plus{ font-family:'Space Mono',monospace; color:var(--coral); font-size:1.2rem; transition:transform 0.25s; }
+  .faq__item[data-open="true"] .plus{ transform:rotate(45deg); }
+  .faq__a{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+  .faq__item[data-open="true"] .faq__a{ max-height:200px; }
+  .faq__a p{ padding:0 4px 22px; color:var(--ink-soft); font-size:0.95rem; max-width:60ch; }
+
+  footer{ padding:50px 24px; }
+  .footer__grid{ max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; border-top:1px solid var(--line); padding-top:30px; }
+  footer .nav__brand{ font-size:1.05rem; }
+  footer p{ font-size:0.82rem; color:var(--ink-soft); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+    .reveal{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body style="background:#EFF6F3;">
+
+<nav class="nav" id="nav">
+  <div class="nav__brand">
+    <svg class="nav__mark" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#FF6449"/><circle cx="16" cy="16" r="5" fill="#EFF6F3"/></svg>
+    Cerca
+  </div>
+  <div class="nav__links">
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#confianza">Confianza</a>
+    <a href="#precio">Precio</a>
+    <a href="#faq">Preguntas</a>
+  </div>
+  <button class="nav__cta" onclick="document.getElementById('precio').scrollIntoView()">Reservar</button>
+</nav>
+
+<section class="hero">
+  <div class="hero__grid">
+    <div class="reveal">
+      <div class="eyebrow"><span class="dot"></span>Sin batería · sin apps</div>
+      <h1>Que un desconocido sepa<br>llamarte en <em>10 segundos.</em></h1>
+      <p class="lede">Cerca es una pulsera para niños que, con solo tocarla con un móvil, muestra tu contacto y lo que hace falta saber. No necesita cargarse. No necesita que tu hijo sepa usarla.</p>
+      <div class="hero__actions">
+        <button class="btn-primary" onclick="document.getElementById('precio').scrollIntoView()">Reservar la mía — 15€</button>
+        <button class="btn-ghost" onclick="document.getElementById('como-funciona').scrollIntoView()">Ver cómo funciona</button>
+      </div>
+      <p class="hero__note">Envío a toda España · Primeras unidades limitadas</p>
+    </div>
+
+    <div class="demo reveal">
+      <div class="demo__label">Prueba el toque</div>
+      <div class="demo__stage">
+        <div class="phone" id="phone">
+          <div class="phone__body"></div>
+          <div class="phone__screen">
+            <div class="phone__glow"></div>
+            <div class="phone__notch"></div>
+            <div class="phone__home"></div>
+          </div>
+        </div>
+
+        <div class="bracelet" id="bracelet">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="34" fill="none" stroke="#FFB648" stroke-width="16" stroke-dasharray="6 7"/>
+            <g transform="translate(60,92)">
+              <rect x="-16" y="-4" width="32" height="24" rx="8" fill="#0B6E63"/>
+              <path class="nfc-wave w1" d="M0,8 a6,6 0 0 1 0,-12" fill="none" stroke="#EFF6F3" stroke-width="2" stroke-linecap="round"/>
+              <path class="nfc-wave w2" d="M0,10 a9,9 0 0 1 0,-16" fill="none" stroke="#EFF6F3" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+              <path class="nfc-wave w3" d="M0,12 a12,12 0 0 1 0,-20" fill="none" stroke="#EFF6F3" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="card" id="card">
+          <div class="card__top">
+            <span class="card__name">Lucía, 6 años</span>
+            <span class="card__tag">CERCA</span>
+          </div>
+          <div class="card__row"><span>Contacto</span><b>Mamá · Ana</b></div>
+          <div class="card__row"><span>Alergias</span><b>Frutos secos</b></div>
+          <div class="card__row"><span>Punto</span><b>Fuente central</b></div>
+          <button class="card__call mono">Llamar ahora</button>
+        </div>
+      </div>
+      <button class="tap-btn" id="tapBtn">Toca aquí para simular el móvil</button>
+      <p class="demo__hint">Así es exactamente lo que ve quien encuentra a tu hijo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="strip__grid reveal">
+    <h2>Te giras dos segundos en el parque y ya no lo ves.<br>Pasa en todos los sitios con mucha gente.</h2>
+    <p>No hace falta una app, ni un GPS que hay que cargar cada noche. Hace falta que quien lo encuentre sepa a quién llamar, ya.</p>
+  </div>
+</section>
+
+<section class="steps" id="como-funciona">
+  <div class="section-head reveal">
+    <div class="eyebrow">Cómo funciona</div>
+    <h2>Tres pasos, listo para el verano</h2>
+  </div>
+  <div class="steps__grid">
+    <div class="step reveal">
+      <div class="step__num mono">01</div>
+      <h3>Pide y personaliza</h3>
+      <p>Añades tu contacto, alergias y lo que necesites que sepa quien la lea. Tarda dos minutos.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step__num mono">02</div>
+      <h3>Ajusta la talla</h3>
+      <p>Silicona blanda e hipoalergénica, resistente al agua. Se adapta de 3 a 12 años.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step__num mono">03</div>
+      <h3>Actualiza cuando quieras</h3>
+      <p>Cambia de cole, de teléfono o de alergia y actualizas los datos sin comprar nada nuevo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="trust" id="confianza">
+  <div class="section-head reveal">
+    <div class="eyebrow">Confianza</div>
+    <h2>Lo que preguntan los padres antes de comprar</h2>
+  </div>
+  <div class="trust__grid">
+    <div class="trust__item reveal">
+      <svg class="trust__icon" viewBox="0 0 40 40" fill="none"><path d="M20 6c8 3 12 3 12 3v11c0 8-5.5 13-12 15C13.5 33 8 28 8 20V9s4-0 12-3Z" stroke="currentColor" stroke-width="2"/><path d="M14 20l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Sin batería</h3>
+      <p>El chip funciona con la energía del propio móvil al tocarlo. No se carga, no se apaga.</p>
+    </div>
+    <div class="trust__item reveal">
+      <svg class="trust__icon" viewBox="0 0 40 40" fill="none"><path d="M6 24c3-4 6-4 9 0s6 4 9 0 6-4 9 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 32c3-4 6-4 9 0s6 4 9 0 6-4 9 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <h3>Resistente al agua</h3>
+      <p>Piscina, playa, lluvia. La silicona aguanta el uso diario de un niño.</p>
+    </div>
+    <div class="trust__item reveal">
+      <svg class="trust__icon" viewBox="0 0 40 40" fill="none"><rect x="11" y="4" width="18" height="32" rx="4" stroke="currentColor" stroke-width="2"/><path d="M18 31h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <h3>Cualquier móvil</h3>
+      <p>Funciona con Android y con iPhone (XS o posterior) sin instalar nada.</p>
+    </div>
+    <div class="trust__item reveal">
+      <svg class="trust__icon" viewBox="0 0 40 40" fill="none"><rect x="9" y="18" width="22" height="16" rx="3" stroke="currentColor" stroke-width="2"/><path d="M14 18v-5a6 6 0 0 1 12 0v5" stroke="currentColor" stroke-width="2"/></svg>
+      <h3>Datos protegidos</h3>
+      <p>Solo se ve tocando la pulsera físicamente. No es una web pública ni aparece en buscadores.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="precio">
+  <div class="section-head reveal">
+    <div class="eyebrow">Precio</div>
+    <h2>Reserva antes de que empiece el verano</h2>
+  </div>
+  <div class="price__cards">
+    <div class="price__card reveal">
+      <h3>Una pulsera</h3>
+      <div class="price__amount">15€ <span>/ unidad</span></div>
+      <ul>
+        <li>1 pulsera Cerca</li>
+        <li>Ficha personalizable</li>
+        <li>Envío incluido</li>
+      </ul>
+      <button class="btn-ghost">Reservar 1</button>
+    </div>
+    <div class="price__card price__card--highlight reveal">
+      <span class="price__badge">Más elegido</span>
+      <h3>Pack hermanos</h3>
+      <div class="price__amount">24€ <span>/ 2 unidades</span></div>
+      <ul>
+        <li>2 pulseras Cerca</li>
+        <li>2 fichas personalizables</li>
+        <li>Envío incluido</li>
+      </ul>
+      <button class="btn-primary">Reservar el pack</button>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="section-head reveal">
+    <div class="eyebrow">Preguntas</div>
+    <h2>Todo lo que te preguntarías tú</h2>
+  </div>
+  <div class="faq__list reveal" id="faqList">
+    <div class="faq__item" data-open="false">
+      <button class="faq__q">¿Necesita que mi hijo lleve el móvil? <span class="plus">+</span></button>
+      <div class="faq__a"><p>No. La pulsera funciona sola. Solo hace falta que quien la encuentre tenga un móvil con NFC, que es prácticamente cualquier smartphone actual.</p></div>
+    </div>
+    <div class="faq__item" data-open="false">
+      <button class="faq__q">¿Puede verla cualquiera desde internet? <span class="plus">+</span></button>
+      <div class="faq__a"><p>No. La ficha solo se abre tocando la pulsera físicamente con un móvil. No tiene una dirección web pública que se pueda buscar.</p></div>
+    </div>
+    <div class="faq__item" data-open="false">
+      <button class="faq__q">¿Y si cambio de número de teléfono? <span class="plus">+</span></button>
+      <div class="faq__a"><p>Actualizas los datos desde tu cuenta cuando quieras, sin tener que comprar una pulsera nueva.</p></div>
+    </div>
+    <div class="faq__item" data-open="false">
+      <button class="faq__q">¿Cuánto tarda en llegar? <span class="plus">+</span></button>
+      <div class="faq__a"><p>Las primeras unidades de esta reserva se envían antes de que empiece la temporada de verano. Te avisamos por email en cuanto sale de fábrica.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer__grid">
+    <div class="nav__brand">
+      <svg class="nav__mark" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#FF6449"/><circle cx="16" cy="16" r="5" fill="#EFF6F3"/></svg>
+      Cerca
+    </div>
+    <p>Hecho para que un segundo de despiste nunca sea el problema.</p>
+  </div>
+</footer>
+
+<script>
+  const phone = document.getElementById('phone');
+  const bracelet = document.getElementById('bracelet');
+  const card = document.getElementById('card');
+  const tapBtn = document.getElementById('tapBtn');
+  let animating = false;
+
+  tapBtn.addEventListener('click', () => {
+    if (animating) return;
+    animating = true;
+    phone.classList.add('tapping');
+    bracelet.classList.add('pulse');
+    setTimeout(() => card.classList.add('show'), 350);
+    setTimeout(() => { bracelet.classList.remove('pulse'); }, 1100);
+    setTimeout(() => {
+      phone.classList.remove('tapping');
+      card.classList.remove('show');
+      animating = false;
+    }, 3200);
+  });
+
+  document.querySelectorAll('.faq__q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.getAttribute('data-open') === 'true';
+      document.querySelectorAll('.faq__item').forEach(i => i.setAttribute('data-open','false'));
+      item.setAttribute('data-open', isOpen ? 'false' : 'true');
+    });
+  });
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
